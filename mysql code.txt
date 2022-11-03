@@ -1,0 +1,183 @@
+CREATE TABLE worker (
+    emp_no      INT             NOT NULL,      
+    first_name  VARCHAR(14)     NOT NULL,
+    last_name   VARCHAR(16)     NOT NULL,
+    email       VARCHAR(35)     NOT NULL,
+    department  VARCHAR(30)     NOT NULL,
+    join_date   DATE            NOT NULL
+);
+
+select * from worker
+
+INSERT INTO worker (first_name, last_name, email, department,join_date)
+VALUES
+('James',	'Smith', 'JamesSmith@gmail.com','Civil', '2019-10-03'),
+('Christopher','Anderson', 'ChristopheAnderson@gmail.com','Mechanical', '2019-11-07'),
+('Ronald','Clark',  'RonaldClark@gmail.com','ECE', '2019-12-12'),
+('Kamal', 'raja', 'Kamalraja@guvi.com', 'Automobile', '2019-12-25'),
+('Ramesh', 'Kumar', 'RameshKumar@gmail.com', 'Thermal', '2020-01-20'),
+('Michelle','Johnson', 'MichelleJohnson@gmail.com','Civil', '2020-03-03'),
+('John' ,'Thomas', 'JohnThomas@gmail.com', 'Fashion Technology ', '2020-05-16'),
+('Daniel', 'Rodriguez', 'DanielRodriguez@gmail.com', 'Petroleum', '2020-07-01'),
+('Anthony', 'Lopez', 'AnthonyLopez@gmail.com', 'Fashion Technology', '2020-08-20'),
+('Robert', 'Lewis', 'RobertLewis@gmail.com', 'Mechanical', '2020-03-10'),
+('Santhosh', 'Narayan', 'SanthoshNarayan@gamil.com', 'Structural', '2021-03-25'),
+('David', 'Miller', 'DavidMiller@gmail.com', 'MBA', '2021-01-12'),
+('Chris', 'Evans', 'ChrisEvans@gmail.com', 'Petroleum', '2021-02-28'),
+('Owen', 'Wilson', 'OwenWilson@gmail.com', 'Computer Science', '2021-06-08'),
+('Margaret', 'Edwards', 'MargaretEdwards@gmail.com', 'MCA', '2022-08-26');
+
+
+
+
+CREATE TABLE city  (
+    id INT NOT NULL,      
+    address VARCHAR(20) NOT NULL
+);
+
+
+
+INSERT INTO city (id, address)
+VALUES
+('3', 'Chennai'),
+('5', 'Delhi'),
+('8', 'Ranchi');
+
+
+
+
+CREATE TABLE worker2 (
+    emp_no      INT PRIMARY KEY AUTO_INCREMENT,      
+    first_name  VARCHAR(14)     NOT NULL,
+    last_name   VARCHAR(16)     NOT NULL,
+    email       VARCHAR(35)     NOT NULL,
+    department  VARCHAR(30)     NOT NULL,
+    salary      INT             NOT NULL,
+    join_date   DATE            NOT NULL
+);
+
+
+
+INSERT INTO worker2 (first_name, last_name, email, department,salary,join_date)
+VALUES
+('Steve',	'Smith', 'SteveSmith@gmail.com','Geoinformatics',46000, '2020-10-03'),
+('Corey','Anderson', 'CoreyAnderson@gmail.com','MCA', 75000, '2019-11-07'),
+('Ronald','Clark',  'RonaldClark@gmail.com','ECE', 57000, '2019-12-12')
+
+
+
+Task-1:
+   1.Select  first_name as worker_name from  worker
+   2.Select DISTINCT department
+     from worker
+   3.(Select * from worker 
+     order by emp_no
+     DESC limit 5)
+     Order by emp_no ASC 
+
+Task-2:
+    1.Select substring(first_name,1,3)
+      from worker
+    2.Select first_name, position('a' IN first_name)
+      from worker;
+    3.SELECT emp_no, department, MAX(salary) 
+      FROM worker 
+      GROUP BY department
+
+Task-3:
+    1.Select RTRIM(first_name)
+      from worker
+    2.Select DISTINCT department, LENGTH(department)
+      from worker
+    3.Select DISTINCT salary 
+      from worker a
+      where 5 >= (Select count(distinct Salary) 
+      from worker b
+      where a.salary <= b.salary) order by a.Salary desc
+
+
+    3.WITH RESULT AS
+     (
+       SELECT salary,  DENSE_RANK() OVER (ORDER BY salary DESC) AS DENSERANK
+       FROM worker
+     )
+     SELECT salary
+     FROM RESULT
+     WHERE DENSERANK = 3
+
+Task-4:
+      1.Select REPLACE(first_name,'a','A') from worker
+      2.Select * from worker order by first_name asc, department desc
+      3.select first_name, salary from worker
+        where
+        salary = (select max(salary) from worker)
+
+Task-5:
+      1.Select * from worker
+        where first_name NOT IN ('Ramesh', 'Santhosh')
+      2.select first_name, email from worker
+        where email like '%guvi.com'
+      3.select first_name, email from worker
+        where email like '%guvi.com'
+
+Task-6:
+      1.Select * from worker
+        where year(join_date) = 2021 and month(join_date) = 3
+
+      2.WITH CTE AS (SELECT *,ROW_NUMBER() 
+	OVER (PARTITION BY first_name,last_name ORDER BY first_name,last_name) AS RN FROM employees.worker) 
+	DELETE FROM CTE WHERE RN > 1;
+
+      2.delete from worker
+	where emp_no in ( select * from 
+	(select max(emp_no) from worker group by first_name having count(*)>1) as t)
+
+      3.Select * from worker 
+	where mod(emp_no,2)<>0
+Task-7:
+      2.Create table worker_2
+	like worker;
+
+	insert into worker_2
+	select * from worker
+      1.Select * from worker 
+        where mod(emp_no,2)<>0
+
+Task-8:
+     1.Select emp_no, first_name,last_name
+	from worker
+	left join city
+	on worker.emp_no = city.id
+	INTERSECT
+	Select emp_no, first_name,last_name
+	from worker
+	right join city
+	on worker.emp_no = city.id
+     2. SELECT * FROM worker2
+	WHERE first_name NOT IN
+        (SELECT first_name 
+        FROM worker)
+ 
+Task-9:
+     1.SELECT first_name,last_name, Salary
+	FROM Worker
+	ORDER BY Salary DESC
+	LIMIT 5,1
+
+     2.SELECT first_name,last_name, Salary FROM Worker ORDER BY Salary DESC LIMIT 14;
+
+Task-10:
+     1.SELECT first_name, last_name, salary
+	FROM worker w1
+	WHERE 8 = (
+	SELECT COUNT( DISTINCT ( w2.salary ) )
+	FROM worker w2
+	WHERE w2.salary >= w1.salary)
+     2.Select distinct W.emp_no, W.FIRST_NAME, W.Salary from Worker W, Worker W1
+       where W.Salary = W1.Salary
+       and W.emp_no != W1.emp_no      
+
+
+
+
+
