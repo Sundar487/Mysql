@@ -67,33 +67,33 @@ VALUES
 
 
 Task-1:
-   1.Select  first_name as worker_name from  worker
+   1.Select  first_name as worker_name from  worker;
    2.Select DISTINCT department
-     from worker
+     from worker;
    3.(Select * from worker 
      order by emp_no
      DESC limit 5)
-     Order by emp_no ASC 
+     Order by emp_no ASC;
 
 Task-2:
     1.Select substring(first_name,1,3)
-      from worker
+      from worker;
     2.Select first_name, position('a' IN first_name)
       from worker;
     3.SELECT emp_no, department, MAX(salary) 
       FROM worker 
-      GROUP BY department
+      GROUP BY department;
 
 Task-3:
     1.Select RTRIM(first_name)
-      from worker
+      from worker;
     2.Select DISTINCT department, LENGTH(department)
-      from worker
+      from worker;
     3.Select DISTINCT salary 
       from worker a
       where 5 >= (Select count(distinct Salary) 
       from worker b
-      where a.salary <= b.salary) order by a.Salary desc
+      where a.salary <= b.salary) order by a.Salary desc;
 
 
     3.WITH RESULT AS
@@ -103,26 +103,26 @@ Task-3:
      )
      SELECT salary
      FROM RESULT
-     WHERE DENSERANK = 3
+     WHERE DENSERANK = 3;
 
 Task-4:
-      1.Select REPLACE(first_name,'a','A') from worker
-      2.Select * from worker order by first_name asc, department desc
+      1.Select REPLACE(first_name,'a','A') from worker;
+      2.Select * from worker order by first_name asc, department desc;
       3.select first_name, salary from worker
         where
-        salary = (select max(salary) from worker)
+        salary = (select max(salary) from worker);
 
 Task-5:
       1.Select * from worker
-        where first_name NOT IN ('Ramesh', 'Santhosh')
+        where first_name NOT IN ('Ramesh', 'Santhosh');
       2.select first_name, email from worker
-        where email like '%guvi.com'
+        where email like '%guvi.com';
       3.select first_name, email from worker
-        where email like '%guvi.com'
+        where email like '%guvi.com';
 
 Task-6:
       1.Select * from worker
-        where year(join_date) = 2021 and month(join_date) = 3
+        where year(join_date) = 2021 and month(join_date) = 3;
 
       2.WITH CTE AS (SELECT *,ROW_NUMBER() 
 	OVER (PARTITION BY first_name,last_name ORDER BY first_name,last_name) AS RN FROM employees.worker) 
@@ -130,18 +130,18 @@ Task-6:
 
       2.delete from worker
 	where emp_no in ( select * from 
-	(select max(emp_no) from worker group by first_name having count(*)>1) as t)
+	(select max(emp_no) from worker group by first_name having count(*)>1) as t);
 
       3.Select * from worker 
-	where mod(emp_no,2)<>0
+	where mod(emp_no,2)<>0;
 Task-7:
       2.Create table worker_2
 	like worker;
-
-	insert into worker_2
-	select * from worker
+        insert into worker_2
+	select * from worker;
+	
       1.Select * from worker 
-        where mod(emp_no,2)<>0
+        where mod(emp_no,2)<>0;
 
 Task-8:
      1.Select emp_no, first_name,last_name
@@ -152,17 +152,18 @@ Task-8:
 	Select emp_no, first_name,last_name
 	from worker
 	right join city
-	on worker.emp_no = city.id
+	on worker.emp_no = city.id;
+	
      2. SELECT * FROM worker2
 	WHERE first_name NOT IN
         (SELECT first_name 
-        FROM worker)
+        FROM worker);
  
 Task-9:
      1.SELECT first_name,last_name, Salary
 	FROM Worker
 	ORDER BY Salary DESC
-	LIMIT 5,1
+	LIMIT 5,1;
 
      2.SELECT first_name,last_name, Salary FROM Worker ORDER BY Salary DESC LIMIT 14;
 
@@ -172,10 +173,11 @@ Task-10:
 	WHERE 8 = (
 	SELECT COUNT( DISTINCT ( w2.salary ) )
 	FROM worker w2
-	WHERE w2.salary >= w1.salary)
+	WHERE w2.salary >= w1.salary);
+	
      2.Select distinct W.emp_no, W.FIRST_NAME, W.Salary from Worker W, Worker W1
        where W.Salary = W1.Salary
-       and W.emp_no != W1.emp_no      
+       and W.emp_no != W1.emp_no;      
 
 
 
